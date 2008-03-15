@@ -16,8 +16,10 @@ import FaceDetect.*;
  */
 
 public class FaceCapture {
-	PApplet p;
-	FaceCapture fd;
+	private ProcessingSketch p;
+	private PImage webcam;
+	private static FaceDetect fd;
+	
 	int MAX = 1;			// maximum number of faces, setting this to 1 for now
 
 	int[] x = new int[MAX];
@@ -25,67 +27,83 @@ public class FaceCapture {
 	int[] r = new int[MAX];
 	int[][] Faces = new int[MAX][3];
 
-	public FaceCapture(PApplet p) {
+	public FaceCapture(ProcessingSketch p, int w, int h, int r) {
 		this.p = p;
-		init();
-	}
-	
-	private void init() {
+		
 		fd = new FaceDetect();
-		fd.start(width, height, 50);
+		fd.start(w, h, r);
 		System.out.println(fd.version());		
 	}
-
-	public void getDetect() {
+	
+	public int[][] getFace() {
 		// TODO return int triple
 
 		Faces = fd.detect();
 		int count = Faces.length;
 		if (count > 0) {
-			for (int i = 0; i < count; i++) {
-				x[i] = Faces[i][0];
-				y[i] = Faces[i][1];
-				r[i] = Faces[i][2] * 2;
-				// println(i + 1 + ": " + x[i] + ", " + y[i] + ", " + r[i]);
-				// captureFace(x[i], y[i], r[i]);
-			}
+			return(Faces);		
 		}
+		return null;
 	}
 	
+	
+	public int[] getImage() {
+		return fd.image();
+	}
+	
+	
+	/*
 	public void drawFace() {
 		int[] img = fd.image();
-		loadPixels();
-		arraycopy(img, pixels);
-		updatePixels();
+		p.loadPixels();
+		ArrayCopy(img, p.pixels);
+		p.updatePixels();
 		
-		strokeWeight(2);
-		stroke(255, 200, 0);
-		noFill();
+		p.strokeWeight(2);
+		p.stroke(255, 200, 0);
+		p.noFill();
 		for (int i = 0; i < count; i++) {
-			ellipse(x[i], y[i], r[i], r[i]);
+			PApplet.ellipse(x[i], y[i], r[i], r[i]);
 		}
 
 	}
+	*/
 	
 	public void captureFace(int x, int y, int r) {		
 		// TODO forget about this and send a whole image + filename instead
-		int block = color(255, 0, 0);		
+		int block = p.color(255, 0, 0);		
 		int startx = x-r;
 		int starty = y-r;
 		int endx = x+r;
 		int endy = y+r;
 		
-		PApplet.loadPixels();
-		for (int i = ((starty-1)*width)-startx; i < (endy*width)+endx; i++) {
-			PApplet.pixels[i] = block;
+		p.loadPixels();
+		for (int i = ((starty-1)*p.width)-startx; i < (endy*p.width)+endx; i++) {
+			p.pixels[i] = block;
 		}
-		PApplet.updatePixels();
+		p.updatePixels();
 	}
 
 	
 	public void stopFaceDetect() {
 		fd.stop();
 	}
-	
-	
+
+	public void drawImage() {
+		int[][] faceData = getFace();
+		p.loadPixels();
+		PApplet.arraycopy(getImage(), p.pixels);
+		p.updatePixels();
+
+		p.strokeWeight(2);
+		p.stroke(255, 200, 0);
+		p.noFill();
+		
+		if(faceData!=null) {
+			for (int i = 0; i < faceData.length; i++) {
+				p.ellipse(faceData[i][0], faceData[i][1], faceData[i][2]*2, faceData[i][2]*2);
+			}
+		}
+		
+	}
 }
