@@ -6,10 +6,18 @@ import FaceDetect.*;
 /**
  * Face detection
  * 
- * Invokes webcam driver and starts face tracking
+ * Starts webcam driver and provides calls for face tracking + image
  * 
  * 
- * work in progress
+ * work in progress!
+ * 
+ * In a nutshell:
+ * Call getPImage() to retrieve a PImage of webcam (whether a face was detected or not),
+ * or getImage() for an int[] of the same thing.
+ * 
+ * Call getFaceData() to get a 2-dim array: a x,y,r triple for each face detected (null if no faces)
+ * (see function for more details)
+ * 
  * 
  * @author Chuan
  * 
@@ -17,27 +25,35 @@ import FaceDetect.*;
 
 public class FaceCapture {
 	private ProcessingSketch p;
-	private PImage webcam;
+	private static PImage webcam;
 	private static FaceDetect fd;
 	
-	int MAX = 1;			// maximum number of faces, setting this to 1 for now
+	private int webcamX, webcamY;
+	
+	private int MAX = 1;			// maximum number of faces detectable per image, setting this to 1 for now
+	private int[][] Faces = new int[MAX][3];
 
-	int[] x = new int[MAX];
-	int[] y = new int[MAX];
-	int[] r = new int[MAX];
-	int[][] Faces = new int[MAX][3];
-
+	int imgCount = 1;
+	
 	public FaceCapture(ProcessingSketch p, int w, int h, int r) {
 		this.p = p;
 		
+		webcam = p.createImage(w,h,PApplet.RGB);
+
+		// find center of stage
+		webcamX = (p.width-w)/2;
+		webcamY = (p.height-h)/2;
+		
 		fd = new FaceDetect();
 		fd.start(w, h, r);
-		System.out.println(fd.version());		
+		System.out.println(fd.version());
 	}
 	
-	public int[][] getFace() {
-		// TODO return int triple
-
+	public int[][] getFaceData() {
+		/**
+		 * returns 2-deep array containing a triple for each face detected in the image
+		 * triple refers to [x], [y], and [radius] of detected face, or null if no face is found
+		 */
 		Faces = fd.detect();
 		int count = Faces.length;
 		if (count > 0) {
@@ -46,64 +62,60 @@ public class FaceCapture {
 		return null;
 	}
 	
-	
 	public int[] getImage() {
 		return fd.image();
 	}
 	
-	
-	/*
-	public void drawFace() {
-		int[] img = fd.image();
-		p.loadPixels();
-		ArrayCopy(img, p.pixels);
-		p.updatePixels();
+	public PImage getPImage() {
+		webcam.loadPixels();
+		PApplet.arraycopy(getImage(), webcam.pixels);
+		webcam.updatePixels();
 		
-		p.strokeWeight(2);
-		p.stroke(255, 200, 0);
+		return(webcam);
+	}
+	
+	public void drawImage() {
+		int[][] faceData = getFaceData();
+
+		p.image(getPImage(), webcamX, webcamY);		
+		p.strokeWeight(10);
+		p.stroke(255);
 		p.noFill();
-		for (int i = 0; i < count; i++) {
-			PApplet.ellipse(x[i], y[i], r[i], r[i]);
-		}
 
+		// TODO smooth out movement of tracking ellipse for that sleek effect
+		if(faceData!=null) {
+			for (int i = 0; i < faceData.length; i++) {
+				p.ellipse(webcamX+faceData[i][0], webcamY+faceData[i][1], faceData[i][2]*2, faceData[i][2]*2);
+			}
+		} else {
+			p.timer.reset();
+		}
 	}
-	*/
 	
-	public void captureFace(int x, int y, int r) {		
-		// TODO forget about this and send a whole image + filename instead
-		int block = p.color(255, 0, 0);		
-		int startx = x-r;
-		int starty = y-r;
-		int endx = x+r;
-		int endy = y+r;
+	public void doGrab() {
+		// TODO Matt, this function will be eventually linked to your magic stuff
+		String filename = saveImage();		// filename of saved png
+		PImage grabImage = getPImage();		// PImage
+		int[][] faceData = getFaceData();	// int[][] of face coordinates		
+	}	
+	
+	public String saveImage() {
+		/**
+		 * This function currently saves out an raw PNG file to the bin folder as captureX.png
+		 * (every time the sketch is restarted it starts at 1 again; this should be ok for now
+		 * but eventually should increment perpetually without overwriting older images)
+		 */
+		String filename = "capture"+imgCount+".png";
+		System.out.println("Saving image: " + filename);
+
+		webcam.save(filename);
 		
-		p.loadPixels();
-		for (int i = ((starty-1)*p.width)-startx; i < (endy*p.width)+endx; i++) {
-			p.pixels[i] = block;
-		}
-		p.updatePixels();
+		imgCount++;
+		return filename;
 	}
-
 	
-	public void stopFaceDetect() {
+	public void stop() {
 		fd.stop();
 	}
 
-	public void drawImage() {
-		int[][] faceData = getFace();
-		p.loadPixels();
-		PApplet.arraycopy(getImage(), p.pixels);
-		p.updatePixels();
-
-		p.strokeWeight(2);
-		p.stroke(255, 200, 0);
-		p.noFill();
-		
-		if(faceData!=null) {
-			for (int i = 0; i < faceData.length; i++) {
-				p.ellipse(faceData[i][0], faceData[i][1], faceData[i][2]*2, faceData[i][2]*2);
-			}
-		}
-		
-	}
 }
