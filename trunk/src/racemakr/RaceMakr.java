@@ -40,7 +40,7 @@ public class RaceMakr {
 					int c = img.getRGB(i,j);
 					total[0] += (c << 4) & 0x0000FF;
 					total[1] += (c << 2) & 0x0000FF;
-					total[2] += c & 0x0000FF;
+					total[2] +=  c       & 0x0000FF;
 				}
 			}
 		}
@@ -53,6 +53,7 @@ public class RaceMakr {
 	
 	public static Race getRace(Color c)
 	{
+		// TODO: Make it harder to become white
 		Race[] races = Race.values();
 		double minDist = (double)Integer.MAX_VALUE;
 		Race r = Race.CAUCASIAN;
