@@ -13,6 +13,9 @@ public class ProcessingSketch extends PApplet {
 	FaceCapture fc;
 	static int[] capturedim = {320, 240};
 	Timer timer;
+	PImage splashImg;
+	PFont headingFont;
+	PFont bodyFont;
 	
 	public static void main(String args[]) {
 		PApplet.main(new String[] { "--present", "--bgcolor=#111111",
@@ -20,29 +23,83 @@ public class ProcessingSketch extends PApplet {
 	}
 
 	public void setup() {
-		size(1024, 768);		
+		size(1024, 768);
+		frameRate(60);
+		
+		splashImg = loadImage("splash.png");
+		headingFont = loadFont("TradeGothicLTStd-Bold-56.vlw");		
+		bodyFont = loadFont("TradeGothicLTStd-20.vlw");
+		
 		// face detection radius should optimally be about 1/4726 of total number of pixels
 		float radratio = (capturedim[0]*capturedim[1])/4726; 
 		fc = new FaceCapture(this, 640, 480, (int)radratio);
 		timer = new Timer(this);
-		smooth();
+		smooth();		
 	}
 
 	// MAIN DRAW LOOP
 	public void draw() {
 		background(0);
+
+		switch(timer.getMode()) {
+			case INIT:
+				drawSplash();
+				break;
+			case DETECT:
+				//fc.doGrab();
+				fc.drawImage();
+				break;
+			case PREANALYZE:
+				// freeze frame and draw captured image
+				fc.drawCapture();
+				break;
+			case ANALYZE:
+				drawAnalysis();
+				break;
+			case HISTORY:
+				drawHistory();
+				break;
+				
+		}
 		
 		timer.update();
-		fc.drawImage();
 	}
 
 	public void keyPressed() {
-		// for debugging, wil be removed eventually...
-		if (keyCode == 32) {
-			println("begin capturing face...");
+		switch(timer.getMode()) {
+			case INIT:
+				timer.setMode(Timer.Mode.DETECT);
+				break;
+			case DETECT:
+				if (keyCode == 32) {
+					println("begin capturing face...");
+				}
+				break;
 		}
 	}
 
+	public void drawSplash() {
+		image(splashImg, 0, 180);			
+		fill(200);
+		textFont(bodyFont, 16);
+		textAlign(CENTER);
+		text("press any key to begin.", width>>1, height-10);
+	}
+	
+	public void drawAnalysis() {
+		textAlign(CENTER, TOP);
+		fill(200);
+		textFont(headingFont, 36);
+		text("ANALYSIS", width>>1, 20);
+	}
+	
+	public void drawHistory() {
+		textAlign(CENTER, TOP);
+		fill(200);
+		textFont(headingFont, 36);
+		text("HISTORY", width>>1, 20);
+	}
+	
 	public void stop() {
 		fc.stop();
 		super.stop();
