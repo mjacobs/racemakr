@@ -6,27 +6,36 @@ import rita.*;
 
 public class ProfileMaker {
 
-	private RiMarkov _markovModel;
+	private RiMarkov _rudeGen, _statGen;
 
 	public ProfileMaker(PApplet parent, RaceMakr.Race race, int n)
 	{
-		_markovModel = new RiMarkov(parent, n); 
-		_markovModel.loadFile(race.name() + ".txt");
+		_rudeGen = new RiMarkov(parent, n); 
+		_rudeGen.loadFile("text/" + race.name() + "_RUDE.txt");
+		
+		_statGen = new RiMarkov(parent, n); 
+		_statGen.loadFile("text/" + race.name() + "_STATISTICS.txt");
 	}
 	
-	public String getProfile(int size)
+	public String[] getProfile(int size)
 	{
-		int wc = 0;
-		String ret = new String();
-		while (wc < size)
+		size = size%2==1?size+1:size;
+		String[] sentences = new String[size];
+		for (int i = 0; i < size/2; i++)
 		{
-			ret += (wc==0?"  ":"") + _markovModel.generate();
+			sentences[i] = _rudeGen.generate();
+			sentences[i+1] = _statGen.generate();
 		}
-		return ret;
+		
+		return sentences;
 	}
 	
 	public static void main(String[] args) {
-		
+		String[] s = (new ProfileMaker(new PApplet(),Race.ASIAN,2)).getProfile(8);
+		for (int i = 0; i < s.length; i++)
+		{
+			System.out.println(s);
+		}
 	}
 
 }
