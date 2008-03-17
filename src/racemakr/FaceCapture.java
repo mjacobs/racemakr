@@ -1,5 +1,6 @@
 package racemakr;
 
+import java.io.File;
 import processing.core.*;
 import FaceDetect.*;
 
@@ -27,14 +28,13 @@ public class FaceCapture {
 	private ProcessingSketch p;
 	private static PImage webcam;
 	private static FaceDetect fd;
+	private static File fcap;
 	
 	private int webcamX, webcamY;
 	
 	private int MAX = 1;			// maximum number of faces detectable per image, setting this to 1 for now
 	private int[][] Faces = new int[MAX][3];
 
-	int imgCount = 1;
-	
 	public FaceCapture(ProcessingSketch p, int w, int h, int r) {
 		this.p = p;
 		
@@ -81,7 +81,7 @@ public class FaceCapture {
 		p.strokeWeight(10);
 		p.stroke(255);
 		p.noFill();
-
+		
 		// TODO smooth out movement of tracking ellipse for that sleek effect
 		if(faceData!=null) {
 			for (int i = 0; i < faceData.length; i++) {
@@ -91,13 +91,25 @@ public class FaceCapture {
 			p.timer.reset();
 		}
 	}
+
+	public void drawCapture() {
+		p.image(webcam, webcamX, webcamY);
+		p.strokeWeight(10);
+		p.stroke(200,0,0);
+		p.noFill();
+		
+		for (int i = 0; i < Faces.length; i++) {
+			p.ellipse(webcamX+Faces[i][0], webcamY+Faces[i][1], Faces[i][2]*2, Faces[i][2]*2);
+		}
+	}
+	
 	
 	public void doGrab() {
 		// TODO Matt, this function will be eventually linked to your magic stuff
 		String filename = saveImage();		// filename of saved png
 		PImage grabImage = getPImage();		// PImage
 		int[][] faceData = getFaceData();	// int[][] of face coordinates		
-	}	
+	}
 	
 	public String saveImage() {
 		/**
@@ -105,13 +117,28 @@ public class FaceCapture {
 		 * (every time the sketch is restarted it starts at 1 again; this should be ok for now
 		 * but eventually should increment perpetually without overwriting older images)
 		 */
-		String filename = "capture"+imgCount+".png";
+				
+		String filename = "capture"+getLastImgCount()+".png";
 		System.out.println("Saving image: " + filename);
 
 		webcam.save(filename);
 		
-		imgCount++;
 		return filename;
+	}
+	
+	private int getLastImgCount() {
+		int c = 1;
+		
+		// finds the next filename to continue from
+		fcap = new File("capture1.png");
+		
+		while(fcap.exists()) {
+			c++;
+			fcap = new File("capture"+c+".png");
+		}
+		
+		System.out.println("new file:" + c);
+		return c;
 	}
 	
 	public void stop() {
