@@ -13,10 +13,11 @@ public class ProcessingSketch extends PApplet {
 	FaceCapture fc;
 	static int[] capturedim = {320, 240};
 	Timer timer;
+	History history;
 	PImage splashImg;
 	PFont headingFont;
 	PFont bodyFont;
-	
+
 	public static void main(String args[]) {
 		PApplet.main(new String[] { "--present", "--bgcolor=#111111",
 				"ProcessingSketch" });
@@ -34,6 +35,7 @@ public class ProcessingSketch extends PApplet {
 		float radratio = (capturedim[0]*capturedim[1])/4726; 
 		fc = new FaceCapture(this, 640, 480, (int)radratio);
 		timer = new Timer(this);
+		history = new History(this);		
 		smooth();		
 	}
 
@@ -44,9 +46,11 @@ public class ProcessingSketch extends PApplet {
 		switch(timer.getMode()) {
 			case INIT:
 				drawSplash();
+				
+				//testing...
+				history.draw();
 				break;
-			case DETECT:
-				//fc.doGrab();
+			case DETECT:				
 				fc.drawImage();
 				break;
 			case PREANALYZE:
