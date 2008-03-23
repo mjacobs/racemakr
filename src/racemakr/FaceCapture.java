@@ -14,7 +14,7 @@ import FaceDetect.*;
  * 
  * In a nutshell:
  * Call getPImage() to retrieve a PImage of webcam (whether a face was detected or not),
- * or getImage() for an int[] of the same thing.
+ * or getImage() for an int[] of the same thing
  * 
  * Call getFaceData() to get a 2-dim array: a x,y,r triple for each face detected (null if no faces)
  * (see function for more details)
