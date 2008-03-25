@@ -2,7 +2,7 @@ package racemakr;
 
 import java.io.File;
 import processing.core.*;
-import FaceDetect.*;
+import FaceDetect.FaceDetect;
 
 /**
  * Face detection

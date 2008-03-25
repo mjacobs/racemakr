@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
-public class RaceMakr {
+public class RaceDeterminr {
 
 	public enum Race { CAUCASIAN, ASIAN, SOUTHAMERICAN, BLACK };
 	private static HashMap<Race, Color> _averageColors;
@@ -71,7 +71,7 @@ public class RaceMakr {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		RaceMakr.getColor("ostrich.jpg", 100, 25, 35);
+		RaceDeterminr.getColor("ostrich.jpg", 100, 25, 35);
 	}
 
 	public static double compareColors(Color c1, Color c2)
