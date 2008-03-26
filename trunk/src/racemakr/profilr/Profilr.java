@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 
 import processing.core.PApplet;
 import processing.core.PImage;
-import racemakr.datastructs.RaceContainr;
+import racemakr.structure.RaceContainr;
 import rita.RiMarkov;
 
 public class Profilr {

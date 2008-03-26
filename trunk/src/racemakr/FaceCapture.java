@@ -2,7 +2,7 @@ package racemakr;
 
 import java.io.File;
 import processing.core.*;
-import racemakr.datastructs.RaceContainr;
+import racemakr.structure.RaceContainr;
 import racemakr.profilr.Profilr;
 import FaceDetect.FaceDetect;
 
