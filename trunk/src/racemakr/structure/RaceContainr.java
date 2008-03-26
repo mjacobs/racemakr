@@ -1,4 +1,4 @@
-package racemakr.datastructs;
+package racemakr.structure;
 
 import processing.core.PApplet;
 import processing.core.PImage;
