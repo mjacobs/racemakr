@@ -43,7 +43,6 @@ public class Profilr {
 		
 		_statGen = new RiMarkov(parent, num_sentences); 
 		_statGen.loadFile("text/" + r.name() + "_STATISTICS.txt");
-		
 		_profile = getProfile(parent.loadImage(filename),r,x,y,rad,NUM_STRINGS);
 	}
 
@@ -86,7 +85,7 @@ public class Profilr {
 		{
 			for (int j = 0; j < 2*rad; j++)
 			{
-				if (Math.pow(i,2)+Math.pow(j,2) < Math.pow(rad,2))
+				if (Math.pow(i-rad,2)+Math.pow(j-rad,2) < Math.pow(rad,2))
 				{
 					mask[i*2*rad + j] = 0;
 				}
@@ -97,7 +96,7 @@ public class Profilr {
 			}
 		}
 		ret.mask(mask);
-		
+		ret.save("cropped.jpg");
 		return ret;
 	}
 	
