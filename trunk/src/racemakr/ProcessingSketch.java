@@ -27,9 +27,9 @@ public class ProcessingSketch extends PApplet {
 		size(1024, 768);
 		frameRate(60);
 		
-		//splashImg = loadImage("splash.png");
-		headingFont = createFont("Arial", 56);//loadFont("TradeGothicLTStd-Bold-56.vlw");		
-		bodyFont = createFont("Arial", 20);//loadFont("TradeGothicLTStd-20.vlw");
+		splashImg = loadImage("../data/splash.png");
+		headingFont = loadFont("../data/TradeGothicLTStd-Bold-56.vlw");		
+		bodyFont = loadFont("../data/TradeGothicLTStd-20.vlw");
 		
 		// face detection radius should optimally be about 1/4726 of total number of pixels
 		float radratio = (capturedim[0]*capturedim[1])/4726; 
@@ -46,17 +46,14 @@ public class ProcessingSketch extends PApplet {
 		switch(timer.getMode()) {
 			case INIT:
 				drawSplash();
-				
-				//testing...
 				history.draw();
 				break;
-			case DETECT:				
+			case DETECT:		
 				fc.drawImage();
 				break;
 			case PREANALYZE:
 				// freeze frame and draw captured image
 				fc.drawCapture();
-				
 				break;
 			case ANALYZE:
 				drawAnalysis();
@@ -84,7 +81,7 @@ public class ProcessingSketch extends PApplet {
 	}
 
 	public void drawSplash() {
-		//image(splashImg, 0, 180);			
+		image(splashImg, 0, 180);			
 		fill(200);
 		textFont(bodyFont, 16);
 		textAlign(CENTER);
@@ -103,10 +100,13 @@ public class ProcessingSketch extends PApplet {
 		fill(200);
 		textFont(headingFont, 36);
 		text("HISTORY", width>>1, 20);
+		
+		//testing...
+		history.draw();
 	}
 	
 	public void stop() {
-		fc.stop();
+   		fc.stop();
 		super.stop();
 	}
 	
