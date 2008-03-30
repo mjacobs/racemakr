@@ -95,7 +95,7 @@ public class Profilr {
 				}
 				else
 				{
-					ret.pixels[i*2*rad + j] = 255;
+					ret.pixels[i*2*rad + j] = _parent.color(255,255,255);
 				}
 			}
 		}
