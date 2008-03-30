@@ -17,7 +17,8 @@ public class ProcessingSketch extends PApplet {
 	PImage splashImg;
 	PFont headingFont;
 	PFont bodyFont;
-
+	PFont countdownFont;
+	
 	public static void main(String args[]) {
 		PApplet.main(new String[] { "--present", "--bgcolor=#111111",
 				"ProcessingSketch" });
@@ -25,17 +26,18 @@ public class ProcessingSketch extends PApplet {
 
 	public void setup() {
 		size(1024, 768);
-		frameRate(60);
+		frameRate(30);
 		
 		splashImg = loadImage("../data/splash.png");
 		headingFont = loadFont("../data/TradeGothicLTStd-Bold-56.vlw");		
 		bodyFont = loadFont("../data/TradeGothicLTStd-20.vlw");
+		countdownFont = loadFont("../data/TradeGothicLTStd-Bd2-96.vlw");
 		
 		// face detection radius should optimally be about 1/4726 of total number of pixels
 		float radratio = (capturedim[0]*capturedim[1])/4726; 
 		fc = new FaceCapture(this, 640, 480, (int)radratio);
 		timer = new Timer(this);
-		history = new History(this);		
+		history = new History(this);	
 		smooth();		
 	}
 
@@ -47,9 +49,10 @@ public class ProcessingSketch extends PApplet {
 			case INIT:
 				drawSplash();
 				history.draw();
+				//drawHistory();
 				break;
 			case DETECT:		
-				fc.drawImage();
+				fc.drawDetect();
 				break;
 			case PREANALYZE:
 				// freeze frame and draw captured image
@@ -101,7 +104,6 @@ public class ProcessingSketch extends PApplet {
 		textFont(headingFont, 36);
 		text("HISTORY", width>>1, 20);
 		
-		//testing...
 		history.draw();
 	}
 	

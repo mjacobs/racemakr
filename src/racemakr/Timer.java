@@ -18,24 +18,24 @@ public class Timer {
 	
 	public void update() {
 		int delta = p.millis()-ms;
+				
 		if(delta>timeout) {
-			
 			switch(currentMode) {
 				case INIT:
-					// done with the intro splash screen, now instantiate webcam and start face detection
-					break;	
+					// done with the intro splash screen, now instantiate webcam and start face detection					
+					break;
 					
 				case DETECT:
 					System.out.println("CAPTURE!");
-					setTimeout(2500);
+					setTimeout(3000);
 					setMode(Mode.PREANALYZE);
-					p.fc.doGrab();
 					break;
 
 				case PREANALYZE:
 					System.out.println("done waiting!");
 					setTimeout(5000);
 					setMode(Mode.ANALYZE);
+					p.fc.doAnalyze();
 					break;
 
 				case ANALYZE:
@@ -52,6 +52,10 @@ public class Timer {
 					break;
 			}			
 			reset();
+		}
+
+		if(currentMode==Mode.DETECT) {
+			p.fc.drawCountdown(3000-delta);
 		}
 		
 	}
