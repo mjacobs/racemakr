@@ -77,20 +77,29 @@ public class Profilr {
 	}
 
 	private PImage crop(PImage im, int x, int y, int rad) {
-		PImage ret = im.get(x - rad, y - rad, 2 * rad, 2 * rad);
-		int[] mask = new int[(int) (Math.pow(2 * rad, 2))];
-
-		for (int i = 0; i < 2 * rad; i++) {
-			for (int j = 0; j < 2 * rad; j++) {
-				if (Math.pow(i - rad, 2) + Math.pow(j - rad, 2) < Math.pow(rad,
-						2)) {
-					mask[i * 2 * rad + j] = 0;
-				} else {
-					mask[i * 2 * rad + j] = 255;
+		// Get the pixel data directly:
+		PImage ret = im.get(x-rad,y-rad,2*rad,2*rad);
+		
+		for (int i = 0; i < 2*rad; i++)
+		{
+			for (int j = 0; j < 2*rad; j++)
+			{
+				// If the pixel at i,j of the smaller jpg is within a radius of rad
+				// then do nothing (leave the pixel), otherwise set the pixel to
+				// white.  This will have aliased edges, but we will draw a circle
+				// over the border when it is displayed.
+				if (Math.pow(i-rad,2)+Math.pow(j-rad,2) < Math.pow(rad,2))
+				{
+					
+					//ret.pixels[i*2*rad + j] = 0;
+				}
+				else
+				{
+					ret.pixels[i*2*rad + j] = 255;
 				}
 			}
 		}
-		ret.mask(mask);
+		// This is a debugging feature, this shouldn't save in the production code:
 		ret.save("../data/cropped.jpg");
 		return ret;
 	}
