@@ -61,11 +61,12 @@ public class History {
 	}
 
 	public void addNew() {
+		currentImg++;		
 		// finds the next filename to continue from
-		File fcap = new File("../data/history/capture" + (currentImg + 1) + ".jpg");
+		File fcap = new File("../data/history/capture" + (currentImg + 1)
+				+ ".jpg");
 		if (fcap.exists()) {
-			historyList[currentImg + 1] = pSketch.loadImage(fcap.toString());
-			currentImg++;
+			historyList[currentImg] = pSketch.loadImage(fcap.toString());
 		}
 	}
 
@@ -80,15 +81,10 @@ public class History {
 				ycoord++;
 			}
 
-			// FIXME the out of memory errors happen here when pSketch.image is called
 			if (historyList[i] != null) {
-				pSketch.image((PImage) historyList[i], xcoord * w, ycoord * h, w, h);
-				//pSketch.image(historyList[0], 0, 0, 160, 120);
-				//System.out.println("displaying image: " + (i + 1));
+				pSketch.image((PImage) historyList[i], xcoord * w, ycoord * h,
+						w, h);
 			}
-			// pSketch.image((PImage)historyList[i], xcoord * w, ycoord * h, w,
-			// h);
-
 		}
 	}
 
