@@ -48,7 +48,7 @@ public class History {
 		for (int i = 0; i < gridSize; i++) {
 
 			// finds the next filename to continue from
-			fcap = new File("../data/capture" + (i + 1) + ".jpg");
+			fcap = new File("../data/history/capture" + (i + 1) + ".jpg");
 
 			if (fcap.exists()) {
 				historyList[i] = pSketch.loadImage(fcap.toString());
@@ -62,7 +62,7 @@ public class History {
 
 	public void addNew() {
 		// finds the next filename to continue from
-		File fcap = new File("../data/capture" + (currentImg + 1) + ".jpg");
+		File fcap = new File("../data/history/capture" + (currentImg + 1) + ".jpg");
 		if (fcap.exists()) {
 			historyList[currentImg + 1] = pSketch.loadImage(fcap.toString());
 			currentImg++;
