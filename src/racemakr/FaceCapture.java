@@ -31,6 +31,7 @@ public class FaceCapture {
 	private PImage _camSnapshot;
 	private FaceDetect _faceDetect;
 	private RaceContainr _racistProfile;
+	private Sandbox _sandbox;
 
 	private int _camCenterX, _camCenterY;
 
@@ -41,6 +42,8 @@ public class FaceCapture {
 	public FaceCapture(ProcessingSketch p, int w, int h, int r) {
 		pSketch = p;
 		_camSnapshot = p.createImage(w, h, PApplet.RGB);
+		
+		_sandbox = new Sandbox();
 
 		// find center of stage
 		_camCenterX = (p.width - w) / 2;
@@ -151,25 +154,11 @@ public class FaceCapture {
 
 		_camSnapshot.save(filename);
 
-		// PImage thumb = pSketch.createImage(160, 120, PApplet.RGB);
-		// thumb.copy(_camSnapshot, 0, 0, _camSnapshot.width,
-		// _camSnapshot.height,
-		// 0, 0, 160, 120);
-		// String tfilename = "../data/history/capture" + imgCount + ".jpg";
-		// thumb.save(tfilename);
-
-		// PImage thumb = pSketch.createImage(160, 120, PApplet.RGB);
-		PApplet tmp = new PApplet();
-		tmp.size(160, 120);
-		tmp.image(_camSnapshot, 0, 0, 160, 120);
-
-		tmp.textFont(pSketch.bodyFont);
-		tmp.fill(255, 0, 0);
-		tmp.text("testtest", 60, 60);
-		// tmp.text(_racistProfile.get_label(), 0, 0);
+		_sandbox.image(_camSnapshot, 0, 0, 160, 120);
+		_sandbox.text("RACIST", 60, 60);
 
 		PImage thumb = pSketch.createImage(160, 120, PApplet.RGB);
-		thumb.copy(tmp.get(), 0, 0, 160, 120, 0, 0, 160, 120);
+		thumb.copy(_sandbox.get(), 0, 0, 160, 120, 0, 0, 160, 120);
 		thumb.save(tfilename);
 
 		return filename;
@@ -210,6 +199,20 @@ public class FaceCapture {
 					face[0][1] + _camCenterY);
 		} catch (NullPointerException e) {
 			// TODO: handle exception
+		}
+	}
+	
+	private class Sandbox extends PApplet
+	{
+		PFont bodyFont;
+		
+		public Sandbox()
+		{
+			super();
+			size(160,120);
+			bodyFont = loadFont("../data/TradeGothicLTStd-20.vlw");
+			textFont(bodyFont);
+			fill(255, 0, 0);
 		}
 	}
 }
