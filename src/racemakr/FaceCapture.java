@@ -136,16 +136,25 @@ public class FaceCapture {
 
 	public String saveImage() {
 		/**
-		 * This function currently saves out an raw JPG file to the bin folder
+		 * This function currently saves out an raw JPG file to the data folder
 		 * as captureX.jpg (every time the sketch is restarted it starts at 1
 		 * again; this should be ok for now but eventually should increment
 		 * perpetually without overwriting older images)
 		 */
 
-		String filename = "../data/capture" + getLastImgCount() + ".jpg";
+		int imgCount = getLastImgCount();
+		
+		String filename = "../data/capture" + imgCount + ".jpg";
 		System.out.println("Saving image: " + filename);
 
 		_camSnapshot.save(filename);
+		
+		// TODO save a lower res image so that history can load it without exceeding memory limits
+		PImage thumb = pSketch.createImage(160, 120, PApplet.RGB);
+		thumb.copy(_camSnapshot, 0, 0, _camSnapshot.width, _camSnapshot.height, 0, 0, 160, 120);
+		String tfilename = "../data/history/capture" + imgCount + ".jpg";
+		thumb.save(tfilename);
+		
 		return filename;
 	}
 
