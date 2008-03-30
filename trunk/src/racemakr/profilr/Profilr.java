@@ -9,6 +9,7 @@ import java.util.HashMap;
 import javax.imageio.ImageIO;
 
 import processing.core.PApplet;
+import processing.core.PFont;
 import processing.core.PImage;
 import racemakr.structure.RaceContainr;
 import rita.RiMarkov;
@@ -18,6 +19,8 @@ public class Profilr {
 	private RiMarkov _rudeGen, _statGen;
 	private RaceContainr _profile;
 	private PApplet _parent;
+	private String _thumbPath;
+	private Sandbox _sandbox;
 
 	public enum Race {
 		CAUCASIAN, ASIAN, SOUTHAMERICAN, BLACK
@@ -26,9 +29,12 @@ public class Profilr {
 	private static HashMap<Race, Color> _averageColors;
 	private static final int NUM_STRINGS = 10;
 
-	public Profilr(PApplet parent, String filename, int x, int y, int rad,
+	public Profilr(PApplet parent, String filename, String tpath, int x, int y, int rad,
 			int num_sentences) {
 		_parent = parent;
+		
+		_sandbox = new Sandbox();
+		_sandbox.init();
 
 		// Setup our 'profile' to compare against:
 		HashMap<Race, Color> averageColors = new HashMap<Race, Color>();
@@ -46,8 +52,25 @@ public class Profilr {
 
 		_statGen = new RiMarkov(parent, num_sentences);
 		_statGen.loadFile("../text/" + r.name() + "_STATISTICS.txt");
-		_profile = getProfile(parent.loadImage(filename), r, x, y, rad,
+
+		PImage snapshot = parent.loadImage(filename);
+		_thumbPath = tpath;
+		generateThumb(snapshot, r.toString());
+		
+		_profile = getProfile(snapshot, r, x, y, rad,
 				NUM_STRINGS);
+	}
+	
+	private void generateThumb(PImage snapshot, String label)
+	{
+		_sandbox.image(snapshot, 0, 0, 160, 120);
+		_sandbox.textFont(_sandbox.headingFont);
+		_sandbox.textAlign(_sandbox.CENTER);
+		_sandbox.text(label, 60, 60);
+
+		PImage thumb = _sandbox.createImage(160, 120, PApplet.RGB);
+		thumb.copy(_sandbox.get(), 0, 0, 160, 120, 0, 0, 160, 120);
+		thumb.save(_thumbPath);
 	}
 
 	public RaceContainr getProfile() {
@@ -193,15 +216,18 @@ public class Profilr {
 		}
 	}
 
-	public static void main(String[] args) {
-		// Generate the sample colors based on our sample images for each race:
-		Profilr p = new Profilr(new PApplet(), "../data/capture1.jpg", 640 / 2,
-				480 / 2, 75, 10);
-		System.out.println("Asian: " + p.getAverageColor("bin/sd/asian/", 250));
-		System.out.println("Caucasian: "
-				+ p.getAverageColor("bin/sd/caucasian/", 250));
-		System.out.println("Black: " + p.getAverageColor("bin/sd/black/", 250));
-		System.out.println("Latin: " + p.getAverageColor("bin/sd/latin/", 250));
+	
+	private class Sandbox extends PApplet
+	{
+		PFont headingFont;
+		
+		public Sandbox()
+		{
+			size(160,120);
+			headingFont = loadFont("../data/TradeGothicLTStd-20.vlw");
+			textFont(headingFont);
+			fill(255, 0, 0);
+		}
 	}
 
 }

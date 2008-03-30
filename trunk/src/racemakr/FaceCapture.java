@@ -31,7 +31,6 @@ public class FaceCapture {
 	private PImage _camSnapshot;
 	private FaceDetect _faceDetect;
 	private RaceContainr _racistProfile;
-	private Sandbox _sandbox;
 
 	private int _camCenterX, _camCenterY;
 
@@ -42,8 +41,6 @@ public class FaceCapture {
 	public FaceCapture(ProcessingSketch p, int w, int h, int r) {
 		pSketch = p;
 		_camSnapshot = p.createImage(w, h, PApplet.RGB);
-		
-		_sandbox = new Sandbox();
 
 		// find center of stage
 		_camCenterX = (p.width - w) / 2;
@@ -125,19 +122,20 @@ public class FaceCapture {
 	}
 
 	public void doAnalyze() {
-		String filename = saveImage(); // filename of saved png
+		int imgCount = getLastImgCount();
+		String filename = saveImage(imgCount); // filename of saved png
 		pSketch.history.addNew();
 
 		// PImage grabImage = getPImage(); // PImage
 		// int[][] faceData = getFaceData(); // int[][] of face coordinates
 
-		Profilr profilr = new Profilr(pSketch, filename, facesArray[0][0],
-				facesArray[0][1], facesArray[0][2], NUM_SENTENCES);
+		Profilr profilr = new Profilr(pSketch, filename, "../data/history/capture" + imgCount + ".jpg", 
+				facesArray[0][0], facesArray[0][1], facesArray[0][2], NUM_SENTENCES);
 		_racistProfile = profilr.getProfile();
 		_racistProfile.print();
 	}
 
-	public String saveImage() {
+	public String saveImage(int imgCount) {
 		/**
 		 * This function currently saves out an raw JPG file to the data folder
 		 * as captureX.jpg (every time the sketch is restarted it starts at 1
@@ -145,21 +143,11 @@ public class FaceCapture {
 		 * perpetually without overwriting older images)
 		 */
 
-		int imgCount = getLastImgCount();
-
 		String filename = "../data/capture" + imgCount + ".jpg";
-		String tfilename = "../data/history/capture" + imgCount + ".jpg";
 
 		System.out.println("Saving image: " + filename);
 
 		_camSnapshot.save(filename);
-
-		_sandbox.image(_camSnapshot, 0, 0, 160, 120);
-		_sandbox.text("RACIST", 60, 60);
-
-		PImage thumb = pSketch.createImage(160, 120, PApplet.RGB);
-		thumb.copy(_sandbox.get(), 0, 0, 160, 120, 0, 0, 160, 120);
-		thumb.save(tfilename);
 
 		return filename;
 	}
@@ -201,18 +189,5 @@ public class FaceCapture {
 			// TODO: handle exception
 		}
 	}
-	
-	private class Sandbox extends PApplet
-	{
-		PFont bodyFont;
-		
-		public Sandbox()
-		{
-			super();
-			size(160,120);
-			bodyFont = loadFont("../data/TradeGothicLTStd-20.vlw");
-			textFont(bodyFont);
-			fill(255, 0, 0);
-		}
-	}
+
 }
