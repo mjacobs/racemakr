@@ -79,23 +79,29 @@ public class FaceCapture {
 		return (_camSnapshot);
 	}
 
-	public void drawImage() {
+	public void drawDetect() {
 		// Get the faces in the image
 		int[][] faceData = getFaceData();
 
 		// Set the look of the circles
 		pSketch.image(getPImage(), _camCenterX, _camCenterY);
-		pSketch.strokeWeight(10);
-		pSketch.stroke(255);
 		pSketch.noFill();
 
 		// Draw a circle around each face in the image
 		// TODO smooth out movement of tracking ellipse for that sleek effect
 		if (faceData != null) {
 			for (int i = 0; i < faceData.length; i++) {
+				int rad1 = faceData[i][2] * 2;
+				int rad2 = rad1 + 14;
+
+				pSketch.strokeWeight(20);
+				pSketch.stroke(255, 50);
 				pSketch.ellipse(_camCenterX + faceData[i][0], _camCenterY
-						+ faceData[i][1], faceData[i][2] * 2,
-						faceData[i][2] * 2);
+						+ faceData[i][1], rad1, rad1);
+				pSketch.strokeWeight(5);
+				pSketch.stroke(255, 255);
+				pSketch.ellipse(_camCenterX + faceData[i][0], _camCenterY
+						+ faceData[i][1], rad2, rad2);
 			}
 		} else {
 			pSketch.timer.reset();
@@ -115,9 +121,10 @@ public class FaceCapture {
 		}
 	}
 
-	public void doGrab() {
+	public void doAnalyze() {
 		String filename = saveImage(); // filename of saved png
-
+		pSketch.history.addNew();
+		
 		// PImage grabImage = getPImage(); // PImage
 		// int[][] faceData = getFaceData(); // int[][] of face coordinates
 
@@ -162,4 +169,21 @@ public class FaceCapture {
 		_faceDetect.stop();
 	}
 
+	public void drawCountdown(int delta) {
+		// draw a text countdown overlay when a face is detected
+		// System.out.println(getFaceData());
+
+		int[][] face;
+		pSketch.fill(255, 100);
+		pSketch.textFont(pSketch.countdownFont, 96);
+		pSketch.textAlign(PApplet.CENTER, PApplet.CENTER);
+
+		try {
+			face = getFaceData();
+			pSketch.text((delta / 1000) + 1, face[0][0] + _camCenterX,
+					face[0][1] + _camCenterY);
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+		}
+	}
 }

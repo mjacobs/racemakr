@@ -22,7 +22,7 @@ public class Profilr {
 	public enum Race {
 		CAUCASIAN, ASIAN, SOUTHAMERICAN, BLACK
 	};
-
+	
 	private static HashMap<Race, Color> _averageColors;
 	private static final int NUM_STRINGS = 10;
 
