@@ -36,6 +36,7 @@ public class Timer {
 					setTimeout(5000);
 					setMode(Mode.ANALYZE);
 					p.fc.doAnalyze();
+					p.analysis.refresh();					
 					break;
 
 				case ANALYZE:
