@@ -162,19 +162,15 @@ public class FaceCapture {
 		PApplet tmp = new PApplet();
 		tmp.size(160, 120);
 		tmp.image(_camSnapshot, 0, 0, 160, 120);
+
 		tmp.textFont(pSketch.bodyFont);
-		tmp.textSize(20);
+		tmp.fill(255, 0, 0);
 		tmp.text("testtest", 60, 60);
 		// tmp.text(_racistProfile.get_label(), 0, 0);
 
 		PImage thumb = pSketch.createImage(160, 120, PApplet.RGB);
 		thumb.copy(tmp.get(), 0, 0, 160, 120, 0, 0, 160, 120);
 		thumb.save(tfilename);
-
-		// thumb.loadPixels();
-		// PApplet.arraycopy(tmp.get(), thumb.pixels);
-
-		// thumb.updatePixels();
 
 		return filename;
 	}
