@@ -124,7 +124,7 @@ public class FaceCapture {
 	public void doAnalyze() {
 		String filename = saveImage(); // filename of saved png
 		pSketch.history.addNew();
-		
+
 		// PImage grabImage = getPImage(); // PImage
 		// int[][] faceData = getFaceData(); // int[][] of face coordinates
 
@@ -143,18 +143,39 @@ public class FaceCapture {
 		 */
 
 		int imgCount = getLastImgCount();
-		
+
 		String filename = "../data/capture" + imgCount + ".jpg";
+		String tfilename = "../data/history/capture" + imgCount + ".jpg";
+
 		System.out.println("Saving image: " + filename);
 
 		_camSnapshot.save(filename);
-		
-		// TODO save a lower res image so that history can load it without exceeding memory limits
+
+		// PImage thumb = pSketch.createImage(160, 120, PApplet.RGB);
+		// thumb.copy(_camSnapshot, 0, 0, _camSnapshot.width,
+		// _camSnapshot.height,
+		// 0, 0, 160, 120);
+		// String tfilename = "../data/history/capture" + imgCount + ".jpg";
+		// thumb.save(tfilename);
+
+		// PImage thumb = pSketch.createImage(160, 120, PApplet.RGB);
+		PApplet tmp = new PApplet();
+		tmp.size(160, 120);
+		tmp.image(_camSnapshot, 0, 0, 160, 120);
+		tmp.textFont(pSketch.bodyFont);
+		tmp.textSize(20);
+		tmp.text("testtest", 60, 60);
+		// tmp.text(_racistProfile.get_label(), 0, 0);
+
 		PImage thumb = pSketch.createImage(160, 120, PApplet.RGB);
-		thumb.copy(_camSnapshot, 0, 0, _camSnapshot.width, _camSnapshot.height, 0, 0, 160, 120);
-		String tfilename = "../data/history/capture" + imgCount + ".jpg";
+		thumb.copy(tmp.get(), 0, 0, 160, 120, 0, 0, 160, 120);
 		thumb.save(tfilename);
-		
+
+		// thumb.loadPixels();
+		// PApplet.arraycopy(tmp.get(), thumb.pixels);
+
+		// thumb.updatePixels();
+
 		return filename;
 	}
 

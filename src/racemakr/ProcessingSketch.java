@@ -13,6 +13,7 @@ public class ProcessingSketch extends PApplet {
 	FaceCapture fc;
 	static int[] capturedim = {320, 240};
 	Timer timer;
+	Analysis analysis;
 	History history;
 	PImage splashImg;
 	PFont headingFont;
@@ -37,6 +38,7 @@ public class ProcessingSketch extends PApplet {
 		float radratio = (capturedim[0]*capturedim[1])/4726; 
 		fc = new FaceCapture(this, 640, 480, (int)radratio);
 		timer = new Timer(this);
+		analysis = new Analysis(this);
 		history = new History(this);	
 		smooth();		
 	}
@@ -96,6 +98,9 @@ public class ProcessingSketch extends PApplet {
 		fill(200);
 		textFont(headingFont, 36);
 		text("ANALYSIS", width>>1, 20);
+		
+		analysis.drawResult();
+		
 	}
 	
 	public void drawHistory() {
