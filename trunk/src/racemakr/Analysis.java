@@ -4,15 +4,12 @@ import processing.core.*;
 import racemakr.structure.RaceContainr;
 
 public class Analysis {
-	private PApplet pSketch;
+	private ProcessingSketch pSketch;
 	private PImage mugshot;
 	private RaceContainr _racistProfile;
-	private PFont titleFont;
-	
+
 	public Analysis(ProcessingSketch p) {
 		this.pSketch = p;
-
-		titleFont = pSketch.loadFont("../data/TradeGothicLTStd-Bd2-36.vlw");
 	}
 
 	public void init(RaceContainr r) {
@@ -24,9 +21,38 @@ public class Analysis {
 	public void drawResult() {
 		pSketch.fill(50);
 		pSketch.textAlign(PApplet.CENTER, PApplet.TOP);
-		pSketch.textFont(titleFont, 36);
+		pSketch.textFont(pSketch.getTitleFont(), 72);
+		pSketch.textLeading(60);
+
+		String title1_str = "this individual is";
+		String title2_str = _racistProfile.get_label() + ".";
+
+		pSketch.text(title1_str, pSketch.width >> 1, 50);
+		pSketch.text(title2_str, pSketch.width >> 1, 110);
+
+		int gutter = 40;
+		int mugY = 160 + gutter;
 		
-		pSketch.text("This individual is determined to be " + _racistProfile.get_label(), pSketch.width >> 1, 50);
-		pSketch.image(mugshot, (pSketch.width-mugshot.width)/2, (pSketch.height-mugshot.height)/2);
+		pSketch.image(mugshot, (pSketch.width - mugshot.width) / 2, mugY);
+
+		pSketch.noFill();
+		pSketch.strokeWeight(10);
+		pSketch.stroke(0, 255);
+		pSketch.ellipse(pSketch.width>>1, mugY+(mugshot.height>>1), mugshot.width, mugshot.width);		
+		
+		pSketch.fill(100);
+		pSketch.textAlign(PApplet.CENTER, PApplet.TOP);
+		pSketch.textFont(pSketch.getSentenceFont(), 18);
+
+		String[] sentences = _racistProfile.get_sentences();
+
+		float y = mugY + mugshot.height + gutter;
+
+		for (int i = 0; i < sentences.length; i++) {
+			pSketch.text(sentences[i], pSketch.width * .25f, y,
+					pSketch.width * .75f, 500f);
+			
+			y += 100f;
+		}
 	}
 }

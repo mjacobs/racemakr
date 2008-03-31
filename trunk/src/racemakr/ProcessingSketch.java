@@ -17,8 +17,10 @@ public class ProcessingSketch extends PApplet {
 	History history;
 	PImage splashImg;
 	public PFont headingFont;
+	public PFont titleFont;
 	public PFont bodyFont;
 	public PFont countdownFont;
+	public PFont sentenceFont;
 	
 	public static void main(String args[]) {
 		PApplet.main(new String[] { "--present", "--bgcolor=#111111",
@@ -30,9 +32,11 @@ public class ProcessingSketch extends PApplet {
 		frameRate(30);
 		
 		splashImg = loadImage("../data/splash.png");
-		headingFont = loadFont("../data/TradeGothicLTStd-Bold-56.vlw");		
+		headingFont = loadFont("../data/TradeGothicLTStd-Bold-56.vlw");
+		titleFont = loadFont("../data/TradeGothicLTStd-Bd2-72.vlw");
 		bodyFont = loadFont("../data/TradeGothicLTStd-20.vlw");
 		countdownFont = loadFont("../data/TradeGothicLTStd-Bd2-96.vlw");
+		sentenceFont = loadFont("../data/Cambria-18.vlw");
 		
 		// face detection radius should optimally be about 1/4726 of total number of pixels
 		float radratio = (capturedim[0]*capturedim[1])/4726; 
@@ -123,6 +127,14 @@ public class ProcessingSketch extends PApplet {
 
 	public PFont getCountdownFont() {
 		return countdownFont;
+	}
+
+	public PFont getTitleFont() {
+		return titleFont;
+	}
+
+	public PFont getSentenceFont() {
+		return sentenceFont;
 	}
 	
 }
