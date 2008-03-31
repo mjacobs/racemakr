@@ -6,7 +6,6 @@ import processing.core.*;
  * 
  * This will be the processing class that will launch the rest of the classes
  * 
- * 
  */
 
 public class ProcessingSketch extends PApplet {
