@@ -66,9 +66,10 @@ public class Profilr {
 	private void generateThumb(PImage snapshot, String label)
 	{
 		_sandbox.image(snapshot, 0, 0, 160, 120);
+		_sandbox.fill(255,200);
 		_sandbox.textFont(_sandbox.headingFont);
 		_sandbox.textAlign(_sandbox.CENTER);
-		_sandbox.text(label, 60, 60);
+		_sandbox.text(label, 80, 65);
 
 		PImage thumb = _sandbox.createImage(160, 120, PApplet.RGB);
 		thumb.copy(_sandbox.get(), 0, 0, 160, 120, 0, 0, 160, 120);
@@ -231,7 +232,7 @@ public class Profilr {
 		public Sandbox()
 		{
 			size(160,120);
-			headingFont = loadFont("../data/TradeGothicLTStd-20.vlw");
+			headingFont = loadFont("../data/TradeGothicLTStd-Bd2-16.vlw");
 			textFont(headingFont);
 			fill(255, 0, 0);
 		}

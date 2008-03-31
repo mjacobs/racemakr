@@ -169,6 +169,10 @@ public class FaceCapture {
 
 		while (fcap.exists()) {
 			c++;
+			if(c>64) {
+				c = 1;
+				break;
+			}
 			fcap = new File("../data/capture" + c + ".jpg");
 		}
 

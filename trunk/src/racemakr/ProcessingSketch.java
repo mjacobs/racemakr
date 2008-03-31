@@ -104,11 +104,10 @@ public class ProcessingSketch extends PApplet {
 	}
 	
 	public void drawHistory() {
-		textAlign(CENTER, TOP);
-		fill(200);
-		textFont(headingFont, 36);
-		text("HISTORY", width>>1, 20);
-		
+//		textAlign(CENTER, TOP);
+//		fill(200);
+//		textFont(headingFont, 36);
+//		text("HISTORY", width>>1, 20);		
 		history.draw();
 	}
 	
