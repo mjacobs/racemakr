@@ -16,8 +16,8 @@ public class Timer {
 	public Timer(ProcessingSketch p) {
 		this.pSketch = p;
 
-		// INIT reserved for intro presentation in 2nd iteration
 		setMode(Mode.INIT);
+		setTimeout(12000);
 		reset();
 	}
 
@@ -30,9 +30,10 @@ public class Timer {
 
 		if (delta > timeout) {
 			switch (currentMode) {
-			case INIT:
+			case INIT:	
 				// done with the intro splash screen, now instantiate webcam and
 				// start face detection
+				setMode(Mode.DETECT);
 				break;
 
 			case DETECT:
