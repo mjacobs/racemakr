@@ -1,77 +1,84 @@
 package racemakr;
 
 public class Timer {
-	private ProcessingSketch p;
+	private ProcessingSketch pSketch;
 	private int ms;
-	
 	private static int timeout = 3000;
-	public enum Mode { INIT, DETECT, PREANALYZE, ANALYZE, HISTORY };
+
+	public enum Mode {
+		INIT, DETECT, PREANALYZE, ANALYZE, HISTORY
+	};
+
 	private static Mode currentMode;
-	
+
+	private boolean _speakonce;
+
 	public Timer(ProcessingSketch p) {
-		this.p = p;
-		
+		this.pSketch = p;
+
 		// INIT reserved for intro presentation in 2nd iteration
 		setMode(Mode.INIT);
 		reset();
 	}
-	
+
 	public void update() {
-		int delta = p.millis()-ms;
-				
-		if(delta>timeout) {
-			switch(currentMode) {
-				case INIT:
-					// done with the intro splash screen, now instantiate webcam and start face detection					
-					break;
-					
-				case DETECT:
-					System.out.println(">>> CAPTURE!");
-					setTimeout(3000);
-					setMode(Mode.PREANALYZE);
-					break;
+		int delta = pSketch.millis() - ms;
+		
+		if (currentMode == Mode.DETECT) {
+			pSketch.fc.drawCountdown(3000 - delta);
+		}
 
-				case PREANALYZE:
-					System.out.println(">>> DONE WAITING AFTER CAPTURE");
-					setTimeout(5000);
-					setMode(Mode.ANALYZE);
-					p.fc.doAnalyze();
-					break;
+		if (delta > timeout) {
+			switch (currentMode) {
+			case INIT:
+				// done with the intro splash screen, now instantiate webcam and
+				// start face detection
+				break;
 
-				case ANALYZE:
-					System.out.println("analysis display complete");
-					setTimeout(5000);
-					setMode(Mode.HISTORY);					
-					break;
-					
-				case HISTORY:
-					System.out.println("history display complete");
-					setTimeout(5000);
-					setMode(Mode.DETECT);					
-					
-					break;
-			}			
+			case DETECT:
+				System.out.println(">>> CAPTURE!");
+				setTimeout(3000);
+				setMode(Mode.PREANALYZE);
+				break;
+
+			case PREANALYZE:
+				System.out.println(">>> DONE WAITING AFTER CAPTURE");
+				setTimeout(5000);
+				setMode(Mode.ANALYZE);
+				_speakonce = true;
+				pSketch.fc.doAnalyze();
+				break;
+
+			case ANALYZE:
+				System.out.println("analysis display complete");
+				setTimeout(5000);
+				setMode(Mode.HISTORY);
+				break;
+
+			case HISTORY:
+				System.out.println("history display complete");
+				setTimeout(5000);
+				setMode(Mode.DETECT);
+
+				break;
+			}
 			reset();
 		}
 
-		if(currentMode==Mode.DETECT) {
-			p.fc.drawCountdown(3000-delta);
-		}
-		
 	}
-	
+
 	public void reset() {
-		ms = p.millis();
+		ms = pSketch.millis();
 	}
-	
+
 	public void setMode(Mode newMode) {
 		currentMode = newMode;
 	}
-	
+
 	public Mode getMode() {
 		return currentMode;
 	}
-	
+
 	public void setTimeout(int t) {
 		timeout = t;
 	}

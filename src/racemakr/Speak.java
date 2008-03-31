@@ -11,11 +11,13 @@ public class Speak {
 
 		RiSpeech.setTTSEnabled(true);
 		rs = new RiSpeech(null);
+		rs.setVoicePitch(60);
 		rs.setVoiceRate(120);
+
+		say("Race Maker is now active");
 	}
 
 	public void say(String text) {
 		rs.speak(text);
 	}
-
 }

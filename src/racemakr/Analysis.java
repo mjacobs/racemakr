@@ -1,6 +1,7 @@
 package racemakr;
 
 import processing.core.*;
+import racemakr.Timer.Mode;
 import racemakr.structure.RaceContainr;
 
 public class Analysis {
@@ -16,9 +17,10 @@ public class Analysis {
 		mugshot = new PImage();
 		mugshot = pSketch.loadImage("../data/cropped.jpg");
 		_racistProfile = r;
-		
+
 		drawResult();
-		pSketch.speak.say(_racistProfile.get_sentences()[0]);
+		sayResult();
+
 	}
 
 	public void drawResult() {
@@ -57,11 +59,17 @@ public class Analysis {
 		// pick out the first sentence for now
 		pSketch.text("\"" + sentences[0] + "\"", pSketch.width * .25f, y,
 				pSketch.width * .5f, 500f);
-		
+
 		// for (int i = 0; i < sentences.length; i++) {
 		// pSketch.text(sentences[i], pSketch.width * .25f, y,
 		// pSketch.width * .5f, 500f);
 		// y += 100f;
 		// }
+	}
+
+	public void sayResult() {
+		pSketch.speak.say("This individual is " + _racistProfile.get_label()
+				+ ".");
+		pSketch.speak.say(_racistProfile.get_sentences()[0]);
 	}
 }
