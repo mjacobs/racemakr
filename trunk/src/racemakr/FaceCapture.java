@@ -155,7 +155,7 @@ public class FaceCapture {
 		 */
 
 		String filename = "../data/capture" + imgCount + ".jpg";
-		System.out.println("Saving image: " + filename);
+		//System.out.println("Saving image: " + filename);
 		_camSnapshot.save(filename);
 
 		return filename;
@@ -177,7 +177,7 @@ public class FaceCapture {
 			fcap = new File("../data/capture" + c + ".jpg");
 		}
 
-		System.out.println("new file:" + c);
+		//System.out.println("new file:" + c);
 		return c;
 	}
 
