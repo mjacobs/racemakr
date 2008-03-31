@@ -26,17 +26,16 @@ public class Timer {
 					break;
 					
 				case DETECT:
-					System.out.println("CAPTURE!");
+					System.out.println(">>> CAPTURE!");
 					setTimeout(3000);
 					setMode(Mode.PREANALYZE);
 					break;
 
 				case PREANALYZE:
-					System.out.println("done waiting!");
+					System.out.println(">>> DONE WAITING AFTER CAPTURE");
 					setTimeout(5000);
 					setMode(Mode.ANALYZE);
 					p.fc.doAnalyze();
-					p.analysis.refresh();					
 					break;
 
 				case ANALYZE:

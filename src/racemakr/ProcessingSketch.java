@@ -16,9 +16,9 @@ public class ProcessingSketch extends PApplet {
 	Analysis analysis;
 	History history;
 	PImage splashImg;
-	PFont headingFont;
-	PFont bodyFont;
-	PFont countdownFont;
+	public PFont headingFont;
+	public PFont bodyFont;
+	public PFont countdownFont;
 	
 	public static void main(String args[]) {
 		PApplet.main(new String[] { "--present", "--bgcolor=#111111",
@@ -50,14 +50,14 @@ public class ProcessingSketch extends PApplet {
 		switch(timer.getMode()) {
 			case INIT:
 				drawSplash();
-				history.draw();
+				//history.draw();
 				//drawHistory();
 				break;
-			case DETECT:		
+			case DETECT:		// OK
 				fc.drawDetect();
 				break;
 			case PREANALYZE:
-				// freeze frame and draw captured image
+				// freeze webcam and draw captured image
 				fc.drawCapture();
 				break;
 			case ANALYZE:
@@ -94,13 +94,9 @@ public class ProcessingSketch extends PApplet {
 	}
 	
 	public void drawAnalysis() {
-		textAlign(CENTER, TOP);
-		fill(200);
-		textFont(headingFont, 36);
-		text("ANALYSIS", width>>1, 20);
+		background(255);
 		
 		analysis.drawResult();
-		
 	}
 	
 	public void drawHistory() {
@@ -115,6 +111,18 @@ public class ProcessingSketch extends PApplet {
 	public void stop() {
    		fc.stop();
 		super.stop();
+	}
+
+	public PFont getHeadingFont() {
+		return headingFont;
+	}
+
+	public PFont getBodyFont() {
+		return bodyFont;
+	}
+
+	public PFont getCountdownFont() {
+		return countdownFont;
 	}
 	
 }

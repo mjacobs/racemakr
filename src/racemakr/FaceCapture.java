@@ -80,6 +80,10 @@ public class FaceCapture {
 	}
 
 	public void drawDetect() {
+		/**
+		 * drawDetect() updates the display with the live webcam (and circles if faces are found)
+		 */
+		
 		// Get the faces in the image
 		int[][] faceData = getFaceData();
 
@@ -109,6 +113,10 @@ public class FaceCapture {
 	}
 
 	public void drawCapture() {
+		/**
+		 * freeze the webcam image, and draw a red ring around detected face
+		 */
+		
 		pSketch.image(_camSnapshot, _camCenterX, _camCenterY);
 		pSketch.strokeWeight(10);
 		pSketch.stroke(200, 0, 0);
@@ -124,7 +132,6 @@ public class FaceCapture {
 	public void doAnalyze() {
 		int imgCount = getLastImgCount();
 		String filename = saveImage(imgCount); // filename of saved png
-		pSketch.history.addNew();
 
 		// PImage grabImage = getPImage(); // PImage
 		// int[][] faceData = getFaceData(); // int[][] of face coordinates
@@ -133,6 +140,9 @@ public class FaceCapture {
 				facesArray[0][0], facesArray[0][1], facesArray[0][2], NUM_SENTENCES);
 		_racistProfile = profilr.getProfile();
 		_racistProfile.print();
+		
+		pSketch.history.addNew();
+		pSketch.analysis.init(_racistProfile);
 	}
 
 	public String saveImage(int imgCount) {
@@ -144,9 +154,7 @@ public class FaceCapture {
 		 */
 
 		String filename = "../data/capture" + imgCount + ".jpg";
-
 		System.out.println("Saving image: " + filename);
-
 		_camSnapshot.save(filename);
 
 		return filename;
