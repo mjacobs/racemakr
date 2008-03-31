@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -28,6 +29,7 @@ public class Profilr {
 	
 	private static HashMap<Race, Color> _averageColors;
 	private static final int NUM_STRINGS = 10;
+	private static final float CAUCASIAN_SCALING = .4f;
 
 	public Profilr(PApplet parent, String filename, String tpath, int x, int y, int rad,
 			int num_sentences) {
@@ -146,9 +148,9 @@ public class Profilr {
 				if (d <= rad) {
 					count++;
 					int c = img.getRGB(i, j);
-					total[0] += (c << 4) & 0x0000FF;
-					total[1] += (c << 2) & 0x0000FF;
-					total[2] += c & 0x0000FF;
+					total[0] += ((c << 4) & 0x0000FF) + _parent.random(-5,5);
+					total[1] += ((c << 2) & 0x0000FF) + _parent.random(-5,5);
+					total[2] += (c & 0x0000FF) + _parent.random(-5,5);
 				}
 			}
 		}
@@ -167,10 +169,15 @@ public class Profilr {
 		Race[] races = Race.values();
 		double minDist = Integer.MAX_VALUE;
 		Race r = Race.CAUCASIAN;
-
+		
 		for (int i = 0; i < races.length; i++) {
 			double d = compareColors(c, _averageColors.get(races[i]));
-			if (d <= minDist) {
+			// If caucasian, then rejection sample:
+			
+			boolean caucasianAccept = (races[i]==Race.CAUCASIAN) ? 
+					(_parent.random(1)<CAUCASIAN_SCALING?true:false) : true;
+					
+			if ((d <= minDist)&&caucasianAccept) {
 				minDist = d;
 				r = races[i];
 			}
