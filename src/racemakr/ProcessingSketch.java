@@ -102,8 +102,6 @@ public class ProcessingSketch extends PApplet {
 	}
 
 	public void drawAnalysis() {
-		background(255);
-
 		analysis.drawResult();
 	}
 

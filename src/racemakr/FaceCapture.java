@@ -142,7 +142,7 @@ public class FaceCapture {
 		_racistProfile.print();
 		
 		pSketch.history.addNew();
-		pSketch.analysis.init(_racistProfile);
+		pSketch.analysis.init(_racistProfile);		
 	}
 
 	public String saveImage(int imgCount) {
