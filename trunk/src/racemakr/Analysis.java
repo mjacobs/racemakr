@@ -16,9 +16,13 @@ public class Analysis {
 		mugshot = new PImage();
 		mugshot = pSketch.loadImage("../data/cropped.jpg");
 		_racistProfile = r;
+		
+		drawResult();
+		pSketch.speak.say(_racistProfile.get_sentences()[0]);
 	}
 
 	public void drawResult() {
+		pSketch.background(255);
 		pSketch.fill(50);
 		pSketch.textAlign(PApplet.CENTER, PApplet.TOP);
 		pSketch.textFont(pSketch.getTitleFont(), 72);
