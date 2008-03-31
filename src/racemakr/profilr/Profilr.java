@@ -24,12 +24,12 @@ public class Profilr {
 	private Sandbox _sandbox;
 
 	public enum Race {
-		CAUCASIAN, ASIAN, SOUTHAMERICAN, BLACK
+		ASIAN, SOUTHAMERICAN, BLACK, CAUCASIAN
 	};
 	
 	private static HashMap<Race, Color> _averageColors;
 	private static final int NUM_STRINGS = 10;
-	private static final float CAUCASIAN_SCALING = .6f;
+	private static final float CAUCASIAN_SCALING = .8f;
 
 	public Profilr(PApplet parent, String filename, String tpath, int x, int y, int rad,
 			int num_sentences) {
@@ -164,18 +164,33 @@ public class Profilr {
 		// TODO: Make it harder to become white
 		Race[] races = Race.values();
 		double minDist = Integer.MAX_VALUE;
+		double nextMin = Integer.MAX_VALUE;
 		Race r = Race.CAUCASIAN;
+		Race rNext = Race.CAUCASIAN;
 		
 		for (int i = 0; i < races.length; i++) {
 			double d = compareColors(c, _averageColors.get(races[i]));
-			// If caucasian, then rejection sample:
-			
-			boolean caucasianAccept = (races[i]==Race.CAUCASIAN) ? 
-					(_parent.random(1)<CAUCASIAN_SCALING?true:false) : true;
 					
-			if ((d <= minDist)&&caucasianAccept) {
+			if (d <= minDist) {
+				nextMin = minDist;
 				minDist = d;
+				rNext = r;
 				r = races[i];
+			}
+		}
+		
+		System.out.println("Best match is " + r.toString() + " then " + rNext.toString());
+		
+		if ((r == Race.CAUCASIAN) && (nextMin * CAUCASIAN_SCALING < minDist))
+		{
+			minDist = Integer.MAX_VALUE;
+			for (int i = 0; i < races.length; i++) {
+				double d = compareColors(c, _averageColors.get(races[i]));
+						
+				if ((races[i]!=Race.CAUCASIAN)&&(d <= minDist)) {
+					minDist = d;
+					r = races[i];
+				}
 			}
 		}
 
