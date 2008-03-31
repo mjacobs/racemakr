@@ -50,8 +50,8 @@ public class Analysis {
 
 		pSketch.textAlign(PApplet.CENTER);
 
-		// pick out the second sentence for now
-		pSketch.text("\"" + sentences[1] + "\"", pSketch.width * .25f, y,
+		// pick out the first sentence for now
+		pSketch.text("\"" + sentences[0] + "\"", pSketch.width * .25f, y,
 				pSketch.width * .5f, 500f);
 		
 		// for (int i = 0; i < sentences.length; i++) {

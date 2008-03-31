@@ -29,7 +29,7 @@ public class Profilr {
 	
 	private static HashMap<Race, Color> _averageColors;
 	private static final int NUM_STRINGS = 10;
-	private static final float CAUCASIAN_SCALING = .4f;
+	private static final float CAUCASIAN_SCALING = 1;
 
 	public Profilr(PApplet parent, String filename, String tpath, int x, int y, int rad,
 			int num_sentences) {
@@ -51,9 +51,7 @@ public class Profilr {
 
 		_rudeGen = new RiMarkov(parent, num_sentences);
 		_rudeGen.loadFile("../text/" + r.name() + "_RUDE.txt");
-
-		_statGen = new RiMarkov(parent, num_sentences);
-		_statGen.loadFile("../text/" + r.name() + "_STATISTICS.txt");
+		_rudeGen.loadFile("../text/" + r.name() + "_STATISTICS.txt");
 
 		PImage snapshot = parent.loadImage(filename);
 		_thumbPath = tpath;
@@ -83,14 +81,11 @@ public class Profilr {
 			return new RaceContainr();
 	}
 
+	// TODO: Get sentences completely ignores size right now, just returns one sentences from
+	// the combined generator.
 	private String[] getSentences(int size) {
-		size = size % 2 == 1 ? size + 1 : size;
-		String[] sentences = new String[size];
-		for (int i = 0; i < size / 2; i++) {
-			sentences[i] = _statGen.generate();
-			sentences[i + size / 2] = _rudeGen.generate();
-		}
-
+		String[] sentences = new String[1];
+		sentences[0] = _rudeGen.generate();
 		return sentences;
 	}
 
