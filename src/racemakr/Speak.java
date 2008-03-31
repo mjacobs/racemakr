@@ -2,21 +2,20 @@ package racemakr;
 
 import rita.*;
 
-
-
 public class Speak {
+	ProcessingSketch pSketch;
 	RiSpeech rs;
-	
-	public Speak() {
+
+	public Speak(ProcessingSketch p) {
+		this.pSketch = p;
+
 		RiSpeech.setTTSEnabled(true);
 		rs = new RiSpeech(null);
 		rs.setVoiceRate(120);
 	}
-	
-	void say(RiText text){
+
+	public void say(String text) {
 		rs.speak(text);
 	}
 
-
 }
-
