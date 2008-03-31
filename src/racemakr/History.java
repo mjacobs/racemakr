@@ -52,12 +52,12 @@ public class History {
 
 			if (fcap.exists()) {
 				historyList[i] = pSketch.loadImage(fcap.toString());
-				System.out.println(historyList[i]);
+				//System.out.println(historyList[i]);
 
 				currentImg = i;
 			}
 		}
-		System.out.println("captured images loaded OK");
+		//System.out.println("captured images loaded OK");
 	}
 
 	public void addNew() {
