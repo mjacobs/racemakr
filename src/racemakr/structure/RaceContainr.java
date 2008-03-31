@@ -10,23 +10,20 @@ public class RaceContainr {
 	private String[] _sentences;
 	private Profilr.Race _race;
 	private String _label;
-	
-	public RaceContainr()
-	{
-		
+
+	public RaceContainr() {
+
 	}
-	
-	public RaceContainr (PImage c, PImage o, String[] s, Profilr.Race r)
-	{
+
+	public RaceContainr(PImage c, PImage o, String[] s, Profilr.Race r) {
 		_cropped = c;
 		_original = o;
 		_race = r;
 		_sentences = s;
 		_label = r.toString().toLowerCase();
 	}
-	
-	public RaceContainr (PImage c, PImage o, String[] s, Profilr.Race r, String l)
-	{
+
+	public RaceContainr(PImage c, PImage o, String[] s, Profilr.Race r, String l) {
 		_cropped = c;
 		_original = o;
 		_race = r;
@@ -79,5 +76,5 @@ public class RaceContainr {
 	public void set_label(String _label) {
 		this._label = _label;
 	}
-	
+
 }

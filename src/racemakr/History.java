@@ -62,6 +62,9 @@ public class History {
 
 	public void addNew() {
 		currentImg++;
+		if(currentImg>gridSize)
+			currentImg = 1;
+		
 		// finds the next filename to continue from
 		File fcap = new File("../data/history/capture" + (currentImg + 1)
 				+ ".jpg");
