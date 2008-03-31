@@ -95,9 +95,10 @@ public class ProcessingSketch extends PApplet {
 	public void drawSplash() {
 		image(splashImg, 0, 180);
 		fill(200);
-		textFont(bodyFont, 16);
-		textAlign(CENTER);
-		text("press any key to begin.", width >> 1, height - 10);
+		
+//		textFont(bodyFont, 16);
+//		textAlign(CENTER);
+//		text("press any key to begin.", width >> 1, height - 10);
 	}
 
 	public void drawAnalysis() {

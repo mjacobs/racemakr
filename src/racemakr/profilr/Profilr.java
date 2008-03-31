@@ -29,7 +29,7 @@ public class Profilr {
 	
 	private static HashMap<Race, Color> _averageColors;
 	private static final int NUM_STRINGS = 10;
-	private static final float CAUCASIAN_SCALING = 1;
+	private static final float CAUCASIAN_SCALING = .6f;
 
 	public Profilr(PApplet parent, String filename, String tpath, int x, int y, int rad,
 			int num_sentences) {
