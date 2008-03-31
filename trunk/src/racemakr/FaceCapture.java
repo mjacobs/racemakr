@@ -26,7 +26,7 @@ import FaceDetect.FaceDetect;
  */
 
 public class FaceCapture {
-	private static final int NUM_SENTENCES = 8;
+	private static final int N_GRAM_SIZE = 4;  // n-gram size
 	private ProcessingSketch pSketch;
 	private PImage _camSnapshot;
 	private FaceDetect _faceDetect;
@@ -137,7 +137,7 @@ public class FaceCapture {
 		// int[][] faceData = getFaceData(); // int[][] of face coordinates
 
 		Profilr profilr = new Profilr(pSketch, filename, "../data/history/capture" + imgCount + ".jpg", 
-				facesArray[0][0], facesArray[0][1], facesArray[0][2], NUM_SENTENCES);
+				facesArray[0][0], facesArray[0][1], facesArray[0][2], N_GRAM_SIZE);
 		_racistProfile = profilr.getProfile();
 		_racistProfile.print();
 		
