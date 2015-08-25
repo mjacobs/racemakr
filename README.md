@@ -1,0 +1,9 @@
+# racemakr
+
+"RaceMakr" is an interactive installation that makes a racial profile of each visitor based on his or her physical attributes. The installation contains a small screen, set up such that only one visitor can see the screen at a time. When the visitor approaches the screen, it displays only the RaceMakr logo. As the visitor stands in front of the screen, the image changes (1), counting down before a picture of the visitor is taken (2). This image is then tested to find the race of the visitor, matching it against a limited profile set that is defined in the program.
+
+Once a match has been made, more information on the individual's race is then referenced from another database that stores highly stereotypical conclusions of a particular race type, including but not restricted to: life expectancy, social status, sexual orientation, hygiene, likeliness to commit crimes.
+
+This information is displayed on the screen (3), which can be seen by the visitor, as well as read aloud, allowing everyone near the installation to hear the descriptions of the visitor. Afterwards, the visitor's face is displayed along with all of the faces of previous visitors (4), showing a database of faces and labels, before moving back to the RaceMakr logo.
+
+This intentionally controversial piece reveals the complexities of racial profiling on several different levels. Its over-simplification of a visitor's identity reveals the dangers of our over-reliance and influence on discrete state machines. The one-way nature of interaction, along with the program's closed visual interface, comment on the veil used by technology to separate its inner workings from those interacting with it. The visitor's simultaneous role of viewer (being the only one who can see the screen) and the viewed (appearing as a performer before the rest of the visitors) draws attention to the power (and vulnerability) of the gaze, particularly in visual stereotyping.
